@@ -6,7 +6,7 @@ module Hanami
     def initialize
       # Holds the list of subscribers where key is
       # event name and value is an array of subscribers
-      @subscribers = Hash.new([])
+      @subscribers = Hash.new { |h, k| h[k] = [] }
     end
 
     # not a big fan  of method_missing idea, but to support any possible event
@@ -28,7 +28,7 @@ module Hanami
     # One downside of this approach that new instance of subscribe is being created at this point
     # With current implementation subscribers shouldn't have any required params for initialization
     def subscribe(name, klass)
-      subscribers[name] << klass.new
+      subscribers[name].push(klass.new)
     end
 
     # Listener should be a singleton
