@@ -25,6 +25,18 @@ class WelcomeMailer
 end
 ```
 
+If we run this code:
+```ruby
+SignUp.new.call
+```
+It will publish `:user_signed_up` event and `WelcomeMailer#user_signed_up` will be called with params: `{ first_name: 'John', last_name: 'Doe' }`
+
+So response will be:
+
+> Processing event with params: {:first_name=>"John", :last_name=>"Doe"}
+
 Uses wisper gem to implement pub/sub.
 
 _Created as a Proof of concept, feedback is welcomed!_
+
+Idea of having Pub/Sub for Hanami was described here: https://discourse.hanamirb.org/t/hanami-2-0-ideas/306/9
