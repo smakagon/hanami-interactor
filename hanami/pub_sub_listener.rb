@@ -16,10 +16,12 @@ module Hanami
     # not a big fan  of method_missing idea, but to support any possible event
     # I had to use it. Wisper expects that global listener should be able to process any evnet.
     # It accepts method, then goes through all subscribers for that event and calls corresponding
-    # method with params.
-    def method_missing(name, *params)
-      subscribers[name.to_sym].each do |subscriber|
-        subscriber.public_send(name, *params)
+    # method with params on subscriber.
+    def method_missing(event, *params)
+      return unless registered_events.include?(event.to_sym)
+
+      subscribers[event.to_sym].each do |subscriber|
+        subscriber.public_send(event, *params)
       end
     end
 
@@ -29,10 +31,10 @@ module Hanami
     end
 
     # Hanami::Subscriber uses this method to subscribe class to events
-    # One downside of this approach that new instance of subscribe is being created at this point
+    # One downside of this approach that new instance of subscriber is being created at this point
     # With current implementation subscribers shouldn't have any required params for initialization
-    def subscribe(name, klass)
-      subscribers[name].push(klass.new)
+    def subscribe(event, subscriber)
+      subscribers[event].push(subscriber.new)
     end
 
     # Listener should be a singleton
