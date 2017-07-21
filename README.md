@@ -1,6 +1,6 @@
 ### Pub/Sub functionality for Hanami Framework
 
-Allows to publish events from code:
+Allows to publish events:
 
 ```ruby
 class SignUp
