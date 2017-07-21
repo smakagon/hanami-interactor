@@ -9,6 +9,10 @@ module Hanami
       @subscribers = Hash.new { |h, k| h[k] = [] }
     end
 
+    def registered_events
+      subscribers.keys
+    end
+
     # not a big fan  of method_missing idea, but to support any possible event
     # I had to use it. Wisper expects that global listener should be able to process any evnet.
     # It accepts method, then goes through all subscribers for that event and calls corresponding
@@ -20,8 +24,8 @@ module Hanami
     end
 
     # Wisper wouldn't call method if class is not responding to the message
-    def respond_to?(_name, *params)
-      true
+    def respond_to?(name, *params)
+      registered_events.include?(name.to_sym)
     end
 
     # Hanami::Subscriber uses this method to subscribe class to events
