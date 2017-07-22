@@ -1,6 +1,6 @@
 # Main listener that is responsible for calling subscribers when event occurred
 module Hanami
-  class PubSubListener
+  class EventListener
     attr_reader :subscribers
 
     def initialize

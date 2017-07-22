@@ -8,7 +8,7 @@ module Hanami
 
     module ClassMethods
       def subscribe_to(method)
-        Hanami::PubSubListener.instance.subscribe(method, self)
+        Hanami::EventListener.instance.subscribe(method, self)
       end
     end
   end
